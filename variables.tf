@@ -465,3 +465,21 @@ variable "additional_policy" {
   default     = ""
   description = "The custom extra policy document. This is a JSON formatted string."
 }
+
+variable "create_notification_rule" {
+  description = "(Required) Create CloudWatch Event Rule to automatically start pipeline when a change occurs."
+  type        = bool
+  default     = false
+}
+
+variable "notification_rule_event_type_ids" {
+  type        = list(any)
+  description = "(Required) A list of event types associated with this notification rule."
+  default     = ["codebuild-project-build-state-failed", "codebuild-project-build-state-succeeded", "codebuild-project-build-state-in-progress", "codebuild-project-build-state-stopped", "codebuild-project-build-phase-failure", "codebuild-project-build-phase-success"]
+}
+
+variable "notification_rule_target" {
+  type        = list(any)
+  description = "(Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation."
+  default     = []
+}

@@ -8,6 +8,7 @@ resource "aws_codebuild_project" "this" {
   source_version         = var.codebuild_source_version
   queued_timeout         = var.queued_timeout
   concurrent_build_limit = var.concurrent_build_limit
+
   # Artifacts
   dynamic "artifacts" {
     for_each = local.artifacts
@@ -169,4 +170,21 @@ resource "aws_codebuild_project" "this" {
   # Tags
   tags = var.tags
 
+}
+
+resource "aws_codestarnotifications_notification_rule" "this" {
+  count          = var.create_notification_rule ? 1 : 0
+  detail_type    = "BASIC"
+  event_type_ids = var.notification_rule_event_type_ids
+
+  name     = var.name
+  resource = aws_codebuild_project.this.arn
+
+  dynamic "target" {
+    for_each = length(var.notification_rule_target) > 0 ? var.notification_rule_target : []
+    content {
+      address = lookup(target.value, "address")
+      type    = lookup(target.value, "type", "SNS")
+    }
+  }
 }
