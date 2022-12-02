@@ -467,7 +467,7 @@ variable "additional_policy" {
 }
 
 variable "create_notification_rule" {
-  description = "(Required) Create CloudWatch Event Rule to automatically start pipeline when a change occurs."
+  description = "(Required) Create notification rule."
   type        = bool
   default     = false
 }
