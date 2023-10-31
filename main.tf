@@ -106,15 +106,6 @@ resource "aws_codebuild_project" "this" {
       location            = lookup(source.value, "location")
       report_build_status = lookup(source.value, "report_build_status")
 
-      # Auth
-      dynamic "auth" {
-        for_each = length(lookup(source.value, "auth")) == 0 ? [] : [lookup(source.value, "auth")]
-        content {
-          type     = auth.value.type
-          resource = auth.value.resource
-        }
-      }
-
       # Git Submodules Config
       dynamic "git_submodules_config" {
         for_each = length(lookup(source.value, "git_submodules_config")) == 0 ? [] : [lookup(source.value, "git_submodules_config")]
@@ -137,15 +128,6 @@ resource "aws_codebuild_project" "this" {
       location            = lookup(secondary_sources.value, "location", null)
       report_build_status = lookup(secondary_sources.value, "report_build_status", var.codebuild_source_report_build_status)
       source_identifier   = lookup(secondary_sources.value, "source_identifier", null)
-
-      # Auth
-      dynamic "auth" {
-        for_each = length(lookup(secondary_sources.value, "auth")) == 0 ? [] : [lookup(secondary_sources.value, "auth")]
-        content {
-          type     = auth.value.type
-          resource = auth.value.resource
-        }
-      }
 
       # Git Submodules Config
       dynamic "git_submodules_config" {
