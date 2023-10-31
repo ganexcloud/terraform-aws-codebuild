@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.2](https://github.com/ganexcloud/terraform-aws-codebuild/compare/v1.0.1...v1.0.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* removing auth deprecated param ([de7874b](https://github.com/ganexcloud/terraform-aws-codebuild/commit/de7874bfc5546d77517ef0a800e3a2dadc7dbd85))
+
 ### [1.0.1](https://github.com/ganexcloud/terraform-aws-codebuild/compare/v1.0.0...v1.0.1) (2022-12-02)
 
 
