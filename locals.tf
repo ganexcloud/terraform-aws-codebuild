@@ -104,5 +104,5 @@ locals {
     security_group_ids = lookup(var.vpc_config, "security_group_ids", null) == null ? var.vpc_config_security_group_ids : lookup(var.vpc_config, "security_group_ids")
   }
 
-  service_role_arn = var.create_default_service_role ? element(aws_iam_role.service_role.*.arn, 0) : var.service_role_arn
+  service_role_arn = var.create_default_service_role ? aws_iam_role.service_role[0].arn : var.service_role_arn
 }

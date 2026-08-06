@@ -2,14 +2,14 @@
 resource "aws_iam_role" "service_role" {
   count              = var.create_default_service_role ? 1 : 0
   name               = "${var.name}-service-role"
-  assume_role_policy = element(data.aws_iam_policy_document.codebuild_assume_role_policy.*.json, 0)
+  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role_policy[0].json
 }
 
 # Add extra polcies
 resource "aws_iam_role_policy" "codebuild_role_extra_policies" {
   count  = var.create_default_service_role ? 1 : 0
-  role   = element(aws_iam_role.service_role.*.name, 0)
-  policy = element(data.aws_iam_policy_document.codebuild_role_extra_policies.*.json, 0)
+  role   = aws_iam_role.service_role[0].name
+  policy = data.aws_iam_policy_document.codebuild_role_extra_policies[0].json
 }
 
 # Assume Role

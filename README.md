@@ -1,3 +1,7 @@
+## Compatibility
+
+This module requires Terraform 0.13.1 or later. Older Terraform versions are not supported.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -10,7 +14,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.12.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.58.0 |
 
 ## Modules
 
@@ -21,6 +25,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_codebuild_project.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
+| [aws_codestarnotifications_notification_rule.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codestarnotifications_notification_rule) | resource |
 | [aws_iam_policy.additional](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.service_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.codebuild_role_extra_policies](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
@@ -64,7 +69,7 @@ No modules.
 | <a name="input_codebuild_secondary_source_location"></a> [codebuild\_secondary\_source\_location](#input\_codebuild\_secondary\_source\_location) | The location of the source code from git or s3. | `string` | `null` | no |
 | <a name="input_codebuild_secondary_source_report_build_status"></a> [codebuild\_secondary\_source\_report\_build\_status](#input\_codebuild\_secondary\_source\_report\_build\_status) | Set to true to report the status of a build's start and finish to your source provider. This option is only valid when the type is `BITBUCKET` or `GITHUB`. | `bool` | `false` | no |
 | <a name="input_codebuild_secondary_source_type"></a> [codebuild\_secondary\_source\_type](#input\_codebuild\_secondary\_source\_type) | The type of repository that contains the secondary source code to be built. Valid values for this parameter are: `CODECOMMIT`, `CODEPIPELINE`, `GITHUB`, `GITHUB_ENTERPRISE`, `BITBUCKET`, `S3` or `NO_SOURCE`. | `string` | `"CODEPIPELINE"` | no |
-| <a name="input_codebuild_secondary_sources"></a> [codebuild\_secondary\_sources](#input\_codebuild\_secondary\_sources) | Information about the project's secondary sources code. See the related codebuild source objects for descriptions of each parameter.<br>  The parameter `source_identifier` is the name of the directory to clone the secondary source into as a sibling to the primary source code directory.<br>  If this variable is omitted, no secondary sources are created.<br>  eg:<pre>codebuild_secondary_sources = [<br>    {<br>      type              = "GITHUB"<br>      location          = "https://github.com/myprofile/myproject-1.git"<br>      source_identifier = "my_awesome_project1"<br>    },<br>    {<br>      type                = "GITHUB"<br>      location            = "https://github.com/myprofile/myproject-2.git"<br>      git_clone_depth     = 1<br>      source_identifier   = "my_awesome_project2"<br>      report_build_status = true<br>      insecure_ssl        = true<br>    }<br>  ]</pre> | `any` | `[]` | no |
+| <a name="input_codebuild_secondary_sources"></a> [codebuild\_secondary\_sources](#input\_codebuild\_secondary\_sources) | Information about the project's secondary sources code. See the related codebuild source objects for descriptions of each parameter.<br/>  The parameter `source_identifier` is the name of the directory to clone the secondary source into as a sibling to the primary source code directory.<br/>  If this variable is omitted, no secondary sources are created.<br/>  eg:<pre>codebuild_secondary_sources = [<br/>    {<br/>      type              = "GITHUB"<br/>      location          = "https://github.com/myprofile/myproject-1.git"<br/>      source_identifier = "my_awesome_project1"<br/>    },<br/>    {<br/>      type                = "GITHUB"<br/>      location            = "https://github.com/myprofile/myproject-2.git"<br/>      git_clone_depth     = 1<br/>      source_identifier   = "my_awesome_project2"<br/>      report_build_status = true<br/>      insecure_ssl        = true<br/>    }<br/>  ]</pre> | `any` | `[]` | no |
 | <a name="input_codebuild_source"></a> [codebuild\_source](#input\_codebuild\_source) | Information about the project's input source code. | `any` | `{}` | no |
 | <a name="input_codebuild_source_auth"></a> [codebuild\_source\_auth](#input\_codebuild\_source\_auth) | Information about the authorization settings for AWS CodeBuild to access the source code to be built. | `map(any)` | `{}` | no |
 | <a name="input_codebuild_source_buildspec"></a> [codebuild\_source\_buildspec](#input\_codebuild\_source\_buildspec) | The build spec declaration to use for this build project's related builds. This must be set when type is iNO\_SOURCE | `string` | `null` | no |
@@ -78,6 +83,7 @@ No modules.
 | <a name="input_codebuild_source_version"></a> [codebuild\_source\_version](#input\_codebuild\_source\_version) | A version of the build input to be built for this project. If not specified, the latest version is used. | `string` | `null` | no |
 | <a name="input_concurrent_build_limit"></a> [concurrent\_build\_limit](#input\_concurrent\_build\_limit) | Specify a maximum number of concurrent builds for the project. | `number` | `1` | no |
 | <a name="input_create_default_service_role"></a> [create\_default\_service\_role](#input\_create\_default\_service\_role) | Should the default service role be created? | `bool` | `true` | no |
+| <a name="input_create_notification_rule"></a> [create\_notification\_rule](#input\_create\_notification\_rule) | (Required) Create notification rule. | `bool` | `false` | no |
 | <a name="input_description"></a> [description](#input\_description) | A short description of the project. | `string` | `null` | no |
 | <a name="input_encryption_key"></a> [encryption\_key](#input\_encryption\_key) | The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build project's build output artifacts. | `string` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Information about the project's build environment. | `any` | `{}` | no |
@@ -90,6 +96,8 @@ No modules.
 | <a name="input_environment_type"></a> [environment\_type](#input\_environment\_type) | The type of build environment to use for related builds. Available values are: `LINUX_CONTAINER`, `LINUX_GPU_CONTAINER`, `WINDOWS_CONTAINER` or `ARM_CONTAINER`. | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | A list of sets of environment variables to make available to builds for this build project. | `list(any)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | The projects name. | `string` | n/a | yes |
+| <a name="input_notification_rule_event_type_ids"></a> [notification\_rule\_event\_type\_ids](#input\_notification\_rule\_event\_type\_ids) | (Required) A list of event types associated with this notification rule. | `list(any)` | <pre>[<br/>  "codebuild-project-build-state-failed",<br/>  "codebuild-project-build-state-succeeded",<br/>  "codebuild-project-build-state-in-progress",<br/>  "codebuild-project-build-state-stopped",<br/>  "codebuild-project-build-phase-failure",<br/>  "codebuild-project-build-phase-success"<br/>]</pre> | no |
+| <a name="input_notification_rule_target"></a> [notification\_rule\_target](#input\_notification\_rule\_target) | (Optional) Configuration blocks containing notification target information. Can be specified multiple times. At least one target must be specified on creation. | `list(any)` | `[]` | no |
 | <a name="input_queued_timeout"></a> [queued\_timeout](#input\_queued\_timeout) | How long in minutes, from 5 to 480 (8 hours), a build is allowed to be queued before it times out.The default is 8 hours. | `number` | `480` | no |
 | <a name="input_s3_logs"></a> [s3\_logs](#input\_s3\_logs) | Configuration for the builds to store log data to S3. | `any` | `{}` | no |
 | <a name="input_s3_logs_encryption_disabled"></a> [s3\_logs\_encryption\_disabled](#input\_s3\_logs\_encryption\_disabled) | Set to true if you do not want S3 logs encrypted. | `string` | `true` | no |
