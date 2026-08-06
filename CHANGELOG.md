@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3](https://github.com/ganexcloud/terraform-aws-codebuild/compare/v1.0.2...v1.0.3) (2026-08-06)
+
+### Bug Fixes
+
+* **ci:** pin terraform-docs image ([4273a82](https://github.com/ganexcloud/terraform-aws-codebuild/commit/4273a82a0590dcf8e306a3bb6fce1f4371665bd4))
+* **docs:** align provider version ([fb4502f](https://github.com/ganexcloud/terraform-aws-codebuild/commit/fb4502f6a7685ae4d0523679e4b5df70b45aba41))
+
 ### [1.0.2](https://github.com/ganexcloud/terraform-aws-codebuild/compare/v1.0.1...v1.0.2) (2023-10-31)
 
 
