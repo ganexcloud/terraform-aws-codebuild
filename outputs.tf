@@ -15,15 +15,15 @@ output "name" {
 
 output "service_role_name" {
   description = "Name of the Service Role created for CodeBuild."
-  value       = var.create_default_service_role ? element(aws_iam_role.service_role.*.name, 0) : null
+  value       = var.create_default_service_role ? aws_iam_role.service_role[0].name : null
 }
 
 output "service_role_arn" {
   description = "Amazon Resource Name (ARN) of the Service Role for CodeBuild."
-  value       = var.create_default_service_role ? element(aws_iam_role.service_role.*.arn, 0) : null
+  value       = var.create_default_service_role ? aws_iam_role.service_role[0].arn : null
 }
 
 output "service_role_id" {
   description = "ID of the Service Role created for CodeBuild."
-  value       = var.create_default_service_role ? element(aws_iam_role.service_role.*.id, 0) : null
+  value       = var.create_default_service_role ? aws_iam_role.service_role[0].id : null
 }
